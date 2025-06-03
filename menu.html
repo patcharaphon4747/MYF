@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>เมนูอาหาร | MyFoodSys</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo">MyFoodSys</div>
+  <div class="user-info">
+    สวัสดี, คุณผู้ใช้
+    <button class="logout-btn" onclick="alert('ออกจากระบบเรียบร้อย!')">ออกจากระบบ</button>
+  </div>
+</nav>
+
+<div class="container">
+ <aside class="sidebar">
+  <a href="index.html" data-tooltip="หน้าหลัก">🏠 หน้าหลัก</a>
+  <a href="menu.html" data-tooltip="เมนูอาหาร">🍽️ เมนูอาหาร</a>
+  <a href="promotion.html" data-tooltip="โปรโมชั่น">🎉 โปรโมชั่น</a>
+  <a href="orders.html" data-tooltip="รายการสั่งซื้อ">🛒 รายการสั่งซื้อ</a>
+  <a href="customers.html" data-tooltip="ลูกค้า">👥 ลูกค้า</a>
+  <a href="reports.html" data-tooltip="รายงาน">📊 รายงาน</a>
+</aside>
+
+
+  <main class="content">
+    <h1>เมนูอาหาร</h1>
+    <div class="dashboard-cards">
+      <section class="card">
+        <h2>เพิ่มเมนูใหม่</h2>
+        <form id="add-menu-form">
+          <input type="text" placeholder="ชื่อเมนู" required />
+          <input type="number" placeholder="ราคา (บาท)" required />
+          <button type="submit">เพิ่ม</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>รายการเมนูทั้งหมด</h2>
+        <ul id="menu-list">
+          <!-- เมนูจะแสดงที่นี่ -->
+        </ul>
+      </section>
+    </div>
+  </main>
+</div>
+
+<footer class="footer">
+  &copy; 2025 MyFoodSys - ระบบจัดการร้านอาหาร สร้างโดยคุณ
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

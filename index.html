@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>หน้าหลัก | MyFoodSys</title>
+<link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet" />
+<style>
+  /* Reset */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body {
+    font-family: 'Kanit', sans-serif;
+    background: #fff8f8;
+    color: #7f2a2a;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  nav.navbar {
+    background-color: #f6c1c1;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 8px rgba(127, 42, 42, 0.2);
+  }
+  nav.navbar .logo {
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: #7f2a2a;
+  }
+  nav.navbar .user-info {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #7f2a2a;
+  }
+  nav.navbar button.logout-btn {
+    background: #f26464;
+    border: none;
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 700;
+    margin-left: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  nav.navbar button.logout-btn:hover {
+    background: #d94a4a;
+  }
+  .container {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    background: #fff0f0;
+  }
+  aside.sidebar {
+    width: 230px;
+    background-color: #f9d7d7;
+    box-shadow: 3px 0 8px rgba(127, 42, 42, 0.15);
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  aside.sidebar a {
+    padding: 0.9rem 1.6rem;
+    color: #7f2a2a;
+    font-weight: 600;
+    border-left: 4px solid transparent;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  aside.sidebar a:hover,
+  aside.sidebar a.active {
+    background-color: #f26464;
+    color: white;
+    border-left-color: white;
+  }
+  main.content {
+    flex: 1;
+    padding: 2.5rem 3rem;
+    overflow-y: auto;
+  }
+  main.content h1 {
+    margin-bottom: 1.5rem;
+  }
+  .dashboard-cards {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(127, 42, 42, 0.1);
+    flex: 1;
+    min-width: 250px;
+    padding: 1.8rem 2rem;
+    color: #7f2a2a;
+  }
+  .card h2 {
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+  .card p {
+    font-size: 1.8rem;
+    font-weight: 900;
+  }
+  .card ul {
+    list-style: none;
+  }
+  .card ul li {
+    padding: 0.3rem 0;
+    border-bottom: 1px solid #f6c1c1;
+  }
+  .chart-container {
+    background: white;
+    padding: 1.8rem 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(127, 42, 42, 0.1);
+  }
+  footer.footer {
+    background-color: #f6c1c1;
+    color: #7f2a2a;
+    text-align: center;
+    padding: 1rem;
+    font-weight: 600;
+    box-shadow: 0 -3px 6px rgba(127, 42, 42, 0.2);
+  }
+  main.content::-webkit-scrollbar {
+    width: 8px;
+  }
+  main.content::-webkit-scrollbar-thumb {
+    background-color: #f26464;
+    border-radius: 4px;
+  }
+  @media (max-width: 768px) {
+    aside.sidebar {
+      width: 60px;
+      padding-top: 1rem;
+    }
+    aside.sidebar a {
+      padding: 0.8rem 0.8rem;
+      font-size: 0;
+      border: none;
+      position: relative;
+    }
+    aside.sidebar a::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 60px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #f26464;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 5px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      font-size: 0.85rem;
+    }
+    aside.sidebar a:hover::after {
+      opacity: 1;
+    }
+    .dashboard-cards {
+      flex-direction: column;
+    }
+  }
+</style>
+</head>
+<body>
+<!-- โหลด Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<!-- โหลดไฟล์ config -->
+<script src="firebase-config.js"></script>
+
+<nav class="navbar">
+  <div class="logo">MyFoodSys</div>
+  <div class="user-info">
+    สวัสดี, <span id="userName">คุณผู้ใช้</span>
+    <button class="logout-btn" id="logoutBtn">ออกจากระบบ</button>
+  </div>
+</nav>
+
+<div class="container">
+  <aside class="sidebar">
+    <a href="dashboard.html" class="active" data-tooltip="หน้าหลัก">🏠 หน้าหลัก</a>
+    <a href="menu.html" data-tooltip="เมนูอาหาร">🍽️ เมนูอาหาร</a>
+    <a href="promotion.html" data-tooltip="โปรโมชั่น">🎉 โปรโมชั่น</a>
+    <a href="orders.html" data-tooltip="รายการสั่งซื้อ">🛒 รายการสั่งซื้อ</a>
+    <a href="customers.html" data-tooltip="ลูกค้า">👥 ลูกค้า</a>
+    <a href="reports.html" data-tooltip="รายงาน">📊 รายงาน</a>
+  </aside>
+
+  <main class="content">
+    <h1>หน้าหลัก</h1>
+    <div class="dashboard-cards">
+      <section class="card" id="total-sales-card">
+        <h2>ยอดขายวันนี้</h2>
+        <p>฿0</p>
+      </section>
+      <section class="card" id="total-orders-card">
+        <h2>รายการสั่งซื้อวันนี้</h2>
+        <p>0 รายการ</p>
+      </section>
+      <section class="card" id="new-customers-card">
+        <h2>ลูกค้าใหม่วันนี้</h2>
+        <p>0 คน</p>
+      </section>
+    </div>
+
+    <section class="card">
+      <h2>เมนูยอดนิยม 5 อันดับ</h2>
+      <ul id="top-menu-list">
+        <li>ไม่มีข้อมูลเมนูยอดนิยม</li>
+      </ul>
+    </section>
+
+    <section class="chart-container" style="margin-top:2rem;">
+      <h2>ยอดขายรายสัปดาห์ (บาท)</h2>
+      <canvas id="salesChart" width="100%" height="200"></canvas>
+    </section>
+  </main>
+</div>
+
+<footer class="footer">
+  &copy; 2025 MyFoodSys - ระบบจัดการร้านอาหาร สร้างโดยคุณ
+</footer>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+<!-- Firebase config -->
+<script src="firebase-config.js"></script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  // เช็คสถานะล็อกอิน ถ้าไม่ล็อกอินจะพาไปหน้า login.html
+  auth.onAuthStateChanged(user => {
+    if (!user) {
+      window.location.href = 'login.html';
+    } else {
+      document.getElementById('userName').textContent = user.displayName || 'คุณผู้ใช้';
+    }
+  });
+
+  // กดออกจากระบบ โดย sign out firebase ก่อน แล้วพาไปหน้า login.html
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    auth.signOut()
+      .then(() => {
+        window.location.href = 'login.html';
+      })
+      .catch(error => {
+        alert('เกิดข้อผิดพลาดในการออกจากระบบ: ' + error.message);
+      });
+  });
+
+  // ข้อมูลเริ่มต้น (mock) เปล่าไว้ก่อน
+  const orders = [];
+  const customers = [];
+  const menus = [];
+
+  // เริ่มต้นข้อมูลยอดขาย, สั่งซื้อ, ลูกค้าใหม่ (0)
+  document.getElementById('total-sales-card').querySelector('p').textContent = '฿0';
+  document.getElementById('total-orders-card').querySelector('p').textContent = '0 รายการ';
+  document.getElementById('new-customers-card').querySelector('p').textContent = '0 คน';
+
+  // เมนูยอดนิยม (ยังไม่มีข้อมูล)
+  const topMenuList = document.getElementById('top-menu-list');
+  topMenuList.innerHTML = '<li>ไม่มีข้อมูลเมนูยอดนิยม</li>';
+
+  // กราฟยอดขายรายสัปดาห์ เริ่มต้นเปล่า ๆ
+  const ctx = document.getElementById('salesChart').getContext('2d');
+  const salesChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['อาทิตย์ที่ 1', 'อาทิตย์ที่ 2', 'อาทิตย์ที่ 3', 'อาทิตย์ที่ 4', 'อาทิตย์ที่ 5', 'อาทิตย์ที่ 6', 'อาทิตย์ที่ 7'],
+      datasets: [{
+        label: 'ยอดขาย (บาท)',
+        data: [0, 0, 0, 0, 0, 0, 0],
+        backgroundColor: '#f26464'
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1000
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

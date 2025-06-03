@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>รายการสั่งซื้อ | MyFoodSys</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo">MyFoodSys</div>
+  <div class="user-info">
+    สวัสดี, คุณผู้ใช้
+    <button class="logout-btn" onclick="alert('ออกจากระบบเรียบร้อย!')">ออกจากระบบ</button>
+  </div>
+</nav>
+
+<div class="container">
+<aside class="sidebar">
+  <a href="index.html" data-tooltip="หน้าหลัก">🏠 หน้าหลัก</a>
+  <a href="menu.html" data-tooltip="เมนูอาหาร">🍽️ เมนูอาหาร</a>
+  <a href="promotion.html" data-tooltip="โปรโมชั่น">🎉 โปรโมชั่น</a>
+  <a href="orders.html" data-tooltip="รายการสั่งซื้อ">🛒 รายการสั่งซื้อ</a>
+  <a href="customers.html" data-tooltip="ลูกค้า">👥 ลูกค้า</a>
+  <a href="reports.html" data-tooltip="รายงาน">📊 รายงาน</a>
+</aside>
+
+  <main class="content">
+    <h1>รายการสั่งซื้อ</h1>
+    <section class="card">
+      <h2>รายการวันนี้</h2>
+      <table style="width:100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background-color: #f9d7d7;">
+            <th style="padding: 0.5rem; text-align: left;">#</th>
+            <th style="padding: 0.5rem; text-align: left;">ลูกค้า</th>
+            <th style="padding: 0.5rem; text-align: left;">เมนู</th>
+            <th style="padding: 0.5rem; text-align: left;">ยอดรวม</th>
+            <th style="padding: 0.5rem; text-align: left;">วันที่</th>
+          </tr>
+        </thead>
+        <tbody id="orders-table">
+          <!-- รายการออเดอร์จะแสดงที่นี่ -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+</div>
+
+<footer class="footer">
+  &copy; 2025 MyFoodSys - ระบบจัดการร้านอาหาร สร้างโดยคุณ
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
